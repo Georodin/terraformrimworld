@@ -89,6 +89,7 @@ namespace TerraformRimworld
 		public static float OPTION_EmiterBaseConsumption;
 		public static bool OPTION_EmiterEnabled;
 		public static int OPTION_EmiterRandomDistance;
+		public static float OPTION_EmiterRangeMultiplier;
 		public static int OPTION_EmiterTick;
 		public static bool OPTION_ForceMinified;
 		public static bool OPTION_InstantConstruction;
@@ -130,6 +131,7 @@ namespace TerraformRimworld
 		private Func<float> PARAM_EmiterBaseConsumption;
 		private Func<bool> PARAM_EmiterEnabled;
 		private Func<int> PARAM_EmiterRandomDistance;
+		private Func<float> PARAM_EmiterRangeMultiplier;
 		private Func<int> PARAM_EmiterTick;
 		private Func<bool> PARAM_ForceMinified;
 		private Func<bool> PARAM_InstantConstruction;
@@ -246,6 +248,7 @@ namespace TerraformRimworld
 				(OPTION_EmiterTick != PARAM_EmiterTick()) ||
 				(OPTION_EmiterBaseConsumption != PARAM_EmiterBaseConsumption()) ||
 				(OPTION_EmiterRandomDistance != PARAM_EmiterRandomDistance()) ||
+				(OPTION_EmiterRangeMultiplier != PARAM_EmiterRangeMultiplier()) ||
 				(OPTION_VanillaLook != PARAM_VanillaLook()) ||
 				(OPTION_InstantConstruction != PARAM_InstantConstruction()) ||
 				(OPTION_PlaceWithoutRestrictions != PARAM_PlaceWithoutRestrictions()) ||
@@ -282,6 +285,7 @@ namespace TerraformRimworld
 			const int DEF_EmiterTick = 60;
 			const float DEF_FuelConsumption = 1.0f;
 			const int DEF_EmiterRandomDistance = 30;
+			const float DEF_EmiterRangeMultiplier = 1.0f;
 			const bool DEF_VanillaLook = false;
 			const int DEF_TemperatureLimit = 200;
 			const bool DEF_ForceMinified = false;
@@ -370,6 +374,9 @@ namespace TerraformRimworld
 
 					object handle22 = settings.GetHandle<int>("P_EmiterRandomDistance", "[Emiter] search distance", "Search distance for nearest free tile around the emiter [0-100]. When no valid tile found, tiles will be selected randomly. Reducing this distance, will force to find more random, instead of near tiles. Default=30", DEF_EmiterRandomDistance, ValidEmiterRandomDistance);
 					PARAM_EmiterRandomDistance = () => (SettingHandle<int>)handle22;
+
+					object handle35 = settings.GetHandle<float>("P_EmiterRangeMultiplier", "[Emiter] range multiplier", "Range multiplier affecting the distance the emiter can emit to. For example 0.1 would be 10% of the default range, while 2.0 equals 200% of the default range. Also scales with research. Default=1.0", DEF_EmiterRandomDistance, ValidEmiterRandomDistance);
+					PARAM_EmiterRangeMultiplier = () => (SettingHandle<float>)handle35;
 
 					object handle29 = settings.GetHandle<float>("P_EmiterBaseConsumption", "[Emiter] base fuel consumption", "Set base fuel consumption per tick [0.0-100.0]. Default=1.0", DEF_FuelConsumption, ValidFuelConsumption);
 					PARAM_EmiterBaseConsumption = () => (SettingHandle<float>)handle29;
@@ -464,6 +471,7 @@ namespace TerraformRimworld
 			PARAM_EmiterTick = () => DEF_EmiterTick;
 			PARAM_EmiterBaseConsumption = () => DEF_FuelConsumption;
 			PARAM_EmiterRandomDistance = () => DEF_EmiterRandomDistance;
+			PARAM_EmiterRangeMultiplier = () => DEF_EmiterRangeMultiplier;
 			PARAM_PlaceWithoutRestrictions = () => DEF_AllowPlacing;
 			PARAM_RockyScatterEnabled = () => DEF_RemoveRockyScatter;
 			PARAM_UseAllTerrain = () => DEF_GrabAllTerrain;
@@ -510,6 +518,7 @@ namespace TerraformRimworld
 			OPTION_EmiterTick = PARAM_EmiterTick();
 			OPTION_EmiterBaseConsumption = PARAM_EmiterBaseConsumption();
 			OPTION_EmiterRandomDistance = PARAM_EmiterRandomDistance();
+			OPTION_EmiterRangeMultiplier = PARAM_EmiterRangeMultiplier();
 			OPTION_PlaceWithoutRestrictions = PARAM_PlaceWithoutRestrictions();
 			OPTION_RockyScatterEnabled = PARAM_RockyScatterEnabled();
 			OPTION_UseAllTerrain = PARAM_UseAllTerrain();

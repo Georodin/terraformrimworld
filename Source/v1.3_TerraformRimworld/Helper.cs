@@ -852,7 +852,7 @@ namespace TerraformRimworld
 			else
 				maxRange = 4;
 
-			return maxRange + 1;
+			return Mathf.CeilToInt((maxRange + 1) * TRMod.OPTION_EmiterRangeMultiplier);
 		}
 
 		public static List<TerrainDef> GetListOfTerrainDefsFromPatchMaker(List<TerrainPatchMaker> lpm)
